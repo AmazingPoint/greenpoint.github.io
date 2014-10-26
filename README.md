@@ -1,4 +1,4 @@
 greenpoint.github.io
 ====================
 
-a simple blog 
+this project is for everything that let you do better whith program
