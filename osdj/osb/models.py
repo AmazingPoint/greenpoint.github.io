@@ -15,16 +15,20 @@ class User(models.Model):
 	'''The information for user, 用户基本信息'''
 	username = models.CharField('用户名', max_length=16)
 	password = models.CharField('密码', max_length=32)
-	truename = models.CharField('真名', max_length=32)
-	nowcity = models.CharField('现居城市', max_length=42)
+	truename = models.CharField('真名', max_length=32, null=True, blank=True)
+	nowcity = models.CharField('现居城市', max_length=42, null=True, blank=True)
 	soldiercity = models.CharField('服役地点', max_length=42)
 	joindate = models.DateField('入伍年份')
-	email = models.EmailField('邮箱')
-	sex = models.CharField('性别', max_length=4)
+	email = models.EmailField('邮箱', null=True, blank=True)
+	sex = models.CharField('性别', max_length=4, null=True, blank=True)
 	state = models.BooleanField('当前状态', default=False)
-	birthday = models.DateField('生日')
-	telphone = models.CharField('电话', max_length=14)
-	picture = models.ImageField('头像')
+	birthday = models.DateField('生日', null=True, blank=True)
+	telphone = models.CharField('电话', max_length=14, null=True, blank=True)
+	picture = models.ImageField('头像', upload_to='userImages', null=True, blank=True)
+	def __unicode__(self):
+		return self.username
+	class Meta:
+		verbose_name_plural = '用户'
 
 class Group(models.Model):
 	'''The grop table one group have one leader who comes 
@@ -32,11 +36,16 @@ class Group(models.Model):
 	小组表，一个小组只能有一个组长，小组与组长为一对多关系
 	小组同时可以被多个用户加入, 小组与用户为多对多关系'''
 	name = models.CharField('小组名称', max_length=32)
-	leader = models.ForeignKey(User)
-	member = models.ManyToManyField(User, related_name='groupmemberuser')
-	createdate = models.DateTimeField('创建时间')
+	leader = models.ForeignKey(User, verbose_name='组长')
+	member = models.ManyToManyField(User, related_name='groupmemberuser', null=True, blank=True)
+	createdate = models.DateTimeField('创建时间', null=True, blank=True)
 	description = models.CharField('描述', max_length=360)
-	image = models.ImageField('展示图片')
+	image = models.ImageField('展示图片', upload_to='groupImages', null=True, blank=True)
+	def __unicode__(self):
+		return self.name
+
+	class Meta:
+		verbose_name_plural = '小组'
 
 class Topics(models.Model):
 	'''The topics must pub in a group and users can give 
@@ -46,9 +55,14 @@ class Topics(models.Model):
 	小组之间是多对一关系，和点赞的用户之间时多对多关系'''
 	headline = models.CharField('话题标题', max_length=128)
 	description = models.CharField('话题描述', max_length=512)
-	group = models.ForeignKey(Group)
-	likeduser = models.ManyToManyField(User, related_name='likegroupuser')
-	createdate = models.DateTimeField('创建时间')
+	group = models.ForeignKey(Group, verbose_name='所属小组' )
+	likeduser = models.ManyToManyField(User, verbose_name='喜欢的人',  related_name='likegroupuser', null=True, blank=True)
+	createdate = models.DateTimeField('创建时间', null=True, blank=True)
+	def __unicode__(self):
+		return self.headline
+
+	class Meta:
+		verbose_name_plural = '话题'
 
 class  Comments(models.Model):
 	'''Comments have a id that which topics be commented
@@ -58,8 +72,12 @@ class  Comments(models.Model):
 	评论还可以被用户点赞，此时评论与点赞用户为一对多关系'''
 	content = models.CharField('评论内容', max_length=1024)
 	topics = models.ForeignKey(Topics)
-	commenter = models.ManyToManyField(User, related_name='commentcommentuser')
-	likeduser = models.ManyToManyField(User, related_name='likecommentsuser')
+	commenter = models.ManyToManyField(User, verbose_name='评论者', related_name='commentcommentuser')
+	likeduser = models.ManyToManyField(User, verbose_name='喜欢的用户', related_name='likecommentsuser')
 	createdate = models.DateTimeField('评论时间')
-	reply = models.ForeignKey('self')
+	reply = models.ForeignKey('self', null=True, blank=True)
+	def __unicode__(self):
+		return self.commenter
 
+	class Meta:
+		verbose_name_plural = '评论'
