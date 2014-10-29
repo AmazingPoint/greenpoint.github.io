@@ -1,0 +1,10 @@
+##########################
+osb means old soldier base
+provide the base data struction such as userinfo groupinfo topicsinfo comments
+osb的意思是 old soldier base
+是整个社交圈的基础，其他附加应用都需要依托这个应用，他的核心是user，user组成group，group内包含话题，话题有对应的评论
+
+osc means old soldier circle
+provide the user own things that they want to say also has comments user can have some follower
+osc的意思是 old soldier circle
+是一个用户组成的圈子，用户可以在上面发表状态并且可以被其他人关注，也可以发布对base里面的话题的看法
