@@ -28,9 +28,18 @@ the folder osdj is the base folder with django It can be run with django1.7
 当你下载到代码时，真正要被你运行的东西是osdj文件夹
 你可以在osdj文件夹内找到manager.py 然后你就可以使用它 
 我在开发中使用sqlite数据库，数据库路径是osdj文件夹内的database下的db.os
+也就是说，你可以这么做：
+'git clone https://github.com/AmazingPoint/greenpoint.github.io.git ospro
+'cd ospro/osdj
+'python manager.py runserver
+然后在浏览器输入 http://127.0.0.1:8000/osb
 
 If you want to run site on your computer, just download django1.7
 When you get the code, the true path is the folder wich is named 'osdj'
 You can get manager.py file in osdj folder, and then you can run it
 I use sqlite database for develop, you also can see it in osdj/databses/db.os
-
+so, you can do like this:
+'git clone https://github.com/AmazingPoint/greenpoint.github.io.git ospro
+'cd ospro/osdj
+'python manager.py runserver
+the type the address http://127.0.0.1:8000/osb in your browser
