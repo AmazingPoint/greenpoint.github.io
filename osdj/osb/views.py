@@ -17,5 +17,5 @@ def index(request):
 	#获取用户最喜欢的三个话题
 	topics_list = Topics.objects.\
 			annotate(num_likeduser=Count('likeduser')).\
-			order_by('-num_likeduser')[0:2]
+			order_by('-num_likeduser')[0:8]
 	return render(request, 'osb/index.html', locals() )
