@@ -56,6 +56,7 @@ class Topics(models.Model):
 	headline = models.CharField('话题标题', max_length=128)
 	description = models.CharField('话题描述', max_length=512)
 	group = models.ForeignKey(Group, verbose_name='所属小组' )
+	creator = models.ForeignKey(User, verbose_name='创建者')
 	likeduser = models.ManyToManyField(User, verbose_name='喜欢的人',  related_name='likegroupuser', null=True, blank=True)
 	createdate = models.DateTimeField('创建时间', null=True, blank=True)
 	def __unicode__(self):
