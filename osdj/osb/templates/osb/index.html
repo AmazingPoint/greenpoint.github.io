@@ -46,6 +46,7 @@
 						<div class="simpleshow" >
 							<div class="showstyle">
 								<img src="/static/img/star.png">
+								<br/>
 								<em>{{ topics.likeduser.count}}</em>
 							</div>
 							<div class="showcontent">
@@ -67,13 +68,9 @@
 				<div class="right_modle ">
 					<h4>新加入的战友</h4>
 					<ul>
-						<li><strong>・</strong><a>小鬼头</a>云南陆军 <strong>1999</strong>年入伍 </li>
-						<li><strong>・</strong><a>王浩然</a>云南陆军 <strong>2013</strong>年入伍 </li>
-						<li><strong>・</strong><a>超级大坏蛋</a>云南陆军 <strong>1999</strong>年入伍 </li>
-						<li><strong>・</strong><a>小鬼头</a>云南陆军 <strong>1999</strong>年入伍 </li>
-						<li><strong>・</strong><a>王浩然</a>云南陆军 <strong>2013</strong>年入伍 </li>
-						<li><strong>・</strong><a>超级大坏蛋</a>云南陆军 <strong>1999</strong>年入伍 </li>
-						<li><strong>・</strong><a>超级大坏蛋</a>云南陆军 <strong>1999</strong>年入伍 </li>
+						{% for user in recent_user_list %}
+						<li><strong>・</strong><a>{{ user.username }}</a>{{ user.soldiercity }} <strong>{{ user.joindate|date:'Y' }}</strong>年入伍 </li>
+						{% endfor %}
 					</ul>
 				</div>
 				<div class="right_modle orange">

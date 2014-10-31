@@ -10,7 +10,7 @@ sys.setdefaultencoding('utf-8')
 ###############################
 
 from django.shortcuts import render
-from osb.models import Topics
+from osb.models import *
 from django.db.models import Count
 
 def index(request):
@@ -18,4 +18,5 @@ def index(request):
 	topics_list = Topics.objects.\
 			annotate(num_likeduser=Count('likeduser')).\
 			order_by('-num_likeduser')[0:8]
-	return render(request, 'osb/index.html', locals() )
+	recent_user_list = User.objects.order_by('-id')[0:7]
+	return render(request, 'osb/index.html', locals())

@@ -34,7 +34,8 @@ input{outline: none;}
 /*信息列表*/
 .left ul li {width: 620px; margin: 28px 5px; color: #666; }
 .simpleshow{border-top: 1px solid #339966; width: 620px;}
-.showstyle{float: left; width: 68px; height: 76px; background: #339966; text-align: center; padding-top: 4px; color: #fff;}
+.showstyle{float: left; width: 68px; height: 76px; background: #339966; text-align: center; color: #fff; overflow:hidden;}
+.showstyle img{margin-top: 10px;}
 .showcontent{float: right; width: 520px;}
 .showcontent p {display: block; background: #f1f1f1; font-size: 13px;}
 .showcontent em{display: block; float: right;}
