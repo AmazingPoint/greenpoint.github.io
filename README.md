@@ -35,7 +35,7 @@ the folder osdj is the base folder with django It can be run with django1.7
 	cd ospro/osdj
 	python manager.py runserver
 
-然后在浏览器输入 http://127.0.0.1:8000/osb   
+然后在浏览器输入 http://127.0.0.1:8000/osb 用户名为：admin 密码为：111111
    
       
 If you want to run site on your computer, just download django1.7   
@@ -48,4 +48,4 @@ so, you can do like this:
 	cd ospro/osdj
 	python manager.py runserver
 	
-then type the address http://127.0.0.1:8000/osb in your browser
+then type the address http://127.0.0.1:8000/osb in your browser log in with admin 111111
