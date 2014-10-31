@@ -39,6 +39,8 @@ INSTALLED_APPS = (
 	'osb',
 )
 
+AUTH_USER_MODEL = 'osb.User'
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

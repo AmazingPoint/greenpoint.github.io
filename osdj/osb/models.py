@@ -10,23 +10,58 @@ sys.setdefaultencoding('utf-8')
 ###############################
 
 from django.db import models
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
-class User(models.Model):
+class OsbUserManager(BaseUserManager):
+	def create_user(self, username, email, password=None):
+		if not email:
+			raise ValueError('请填写您的邮箱')
+		user = self.model(				           
+			username=username,
+			email=OsbUserManager.normalize_email(email),
+		)
+		user.set_password(password)
+		user.save(using=self._db)
+		return user
+
+	def create_superuser(self, username, email, password=None):
+		user = self.create_user(username, email, password)
+		user.is_admin = True
+		user.save(using=self._db)
+		return user
+
+class User(AbstractBaseUser):
 	'''The information for user, 用户基本信息'''
-	username = models.CharField('用户名', max_length=16)
-	password = models.CharField('密码', max_length=32)
+	username = models.CharField('用户名', max_length=48, unique=True)
+#	password = models.CharField('密码', max_length=128)
 	truename = models.CharField('真名', max_length=32, null=True, blank=True)
 	nowcity = models.CharField('现居城市', max_length=42, null=True, blank=True)
-	soldiercity = models.CharField('服役地点', max_length=42)
-	joindate = models.DateField('入伍年份')
-	email = models.EmailField('邮箱', null=True, blank=True)
+	soldiercity = models.CharField('服役地点', max_length=42, null=True, blank=True)
+	joindate = models.DateField('入伍年份', null=True, blank=True)
+	email = models.EmailField('邮箱', max_length=128, unique=True)
 	sex = models.CharField('性别', max_length=4, null=True, blank=True)
 	state = models.BooleanField('当前状态', default=False)
 	birthday = models.DateField('生日', null=True, blank=True)
 	telphone = models.CharField('电话', max_length=14, null=True, blank=True)
 	picture = models.ImageField('头像', upload_to='userImages', null=True, blank=True)
+	is_admin = models.BooleanField(default=False)
+	objects = OsbUserManager()
+	USERNAME_FIELD = 'username'
+	REQUIRED_FIELDS = ('email',)
+	@property
+	def is_staff(self):
+		return self.is_admin
+	def has_perm(self, perm, obj=None):
+		return True
+	def has_module_perms(self, app_label):
+		return True
+	def get_full_name(self):
+		return self.username
+	def get_short_name(self):
+		return self.username
 	def __unicode__(self):
 		return self.username
+
 	class Meta:
 		verbose_name_plural = '用户'
 
