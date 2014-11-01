@@ -100,7 +100,7 @@ class Topics(models.Model):
 	class Meta:
 		verbose_name_plural = '话题'
 
-class  Comments(models.Model):
+class  Comment(models.Model):
 	'''Comments have a id that which topics be commented
 	a pice of comment can also be liked by other user
 	评论表，一条评论对应一个话题，和话题为多对一关系
@@ -108,12 +108,11 @@ class  Comments(models.Model):
 	评论还可以被用户点赞，此时评论与点赞用户为一对多关系'''
 	content = models.CharField('评论内容', max_length=1024)
 	topics = models.ForeignKey(Topics)
-	commenter = models.ManyToManyField(User, verbose_name='评论者', related_name='commentcommentuser')
+	commenter = models.ForeignKey(User, verbose_name='评论者', related_name='commentcommentuser')
 	likeduser = models.ManyToManyField(User, verbose_name='喜欢的用户', related_name='likecommentsuser')
 	createdate = models.DateTimeField('评论时间')
-	reply = models.ForeignKey('self', null=True, blank=True)
+	reply = models.ForeignKey('self', null=True, blank=True,verbose_name='回复')
 	def __unicode__(self):
-		return self.commenter
-
+		return self.content[0:10]
 	class Meta:
 		verbose_name_plural = '评论'

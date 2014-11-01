@@ -10,9 +10,9 @@ sys.setdefaultencoding('utf-8')
 ###############################
 
 from django.contrib import admin
-from osb.models import User, Group, Topics, Comments
+from osb.models import User, Group, Topics, Comment
 
 admin.site.register(User)
 admin.site.register(Group)
 admin.site.register(Topics)
-admin.site.register(Comments)
+admin.site.register(Comment)
