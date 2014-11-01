@@ -28,3 +28,4 @@ def index(request):
 			annotate(num_member=Count('member')).\
 			order_by('-num_member')[0:7]
 	return render(request, 'osb/index.html', locals())
+

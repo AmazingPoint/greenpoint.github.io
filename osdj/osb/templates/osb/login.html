@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+{% if form.errors %}
+<p> 登录失败！</p>
+{% endif %}
+<form method='post' action="{% url 'django.contrib.auth.views.login' %}">
+{% csrf_token %}
+{{ form.username.label_tag }}:
+{{ form.username }}
+<br/>
+{{ form.password.label_tag }}
+{{ form.password }}
+<br/>
+<input type='submit' value='login' />
+<input type='hidden' name='next' value='/osb' />
+</form>
+</body>
+</html>

@@ -14,7 +14,11 @@
 				<div id="userbar">
 					<ul>
 						<li>
+						{% if user.is_authenticated %}
+							{{ user.username }}
+						{% else %}
 							登录/注册
+						{% endif %}
 							<img src="/static/img/userbar_flag.png" />
 						</li>
 					</ul>
