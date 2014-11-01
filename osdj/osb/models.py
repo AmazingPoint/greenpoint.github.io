@@ -10,9 +10,12 @@ sys.setdefaultencoding('utf-8')
 ###############################
 
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.models import (
+	BaseUserManager, AbstractBaseUser
+)
 
 class OsbUserManager(BaseUserManager):
+	#override the create_user
 	def create_user(self, username, email, password=None):
 		if not email:
 			raise ValueError('请填写您的邮箱')
@@ -23,7 +26,7 @@ class OsbUserManager(BaseUserManager):
 		user.set_password(password)
 		user.save(using=self._db)
 		return user
-
+	#override the create_superuser
 	def create_superuser(self, username, email, password=None):
 		user = self.create_user(username, email, password)
 		user.is_admin = True
@@ -40,30 +43,42 @@ class User(AbstractBaseUser):
 	joindate = models.DateField('入伍年份', null=True, blank=True)
 	email = models.EmailField('邮箱', max_length=128, unique=True)
 	sex = models.CharField('性别', max_length=4, null=True, blank=True)
-	state = models.BooleanField('当前状态', default=False)
+#	state = models.BooleanField('当前状态', default=False)
 	birthday = models.DateField('生日', null=True, blank=True)
 	telphone = models.CharField('电话', max_length=14, null=True, blank=True)
 	picture = models.ImageField('头像', upload_to='userImages', null=True, blank=True)
+	is_active = models.BooleanField(default=True)
 	is_admin = models.BooleanField(default=False)
+		
 	objects = OsbUserManager()
+
 	USERNAME_FIELD = 'username'
 	REQUIRED_FIELDS = ('email',)
+
+	def get_full_name(self):
+		return self.username
+	
+	def get_short_name(self):
+		return self.username
+
+	def __unicode__(self):
+		return self.username
+	
+	def has_perm(self, perm, obj=None):
+		'检查用户是否具有权限'
+		return True
+	
+	def has_module_perms(self, app_label):
+		'检查用户是否具有某个app的权限'
+		return True
+	
 	@property
 	def is_staff(self):
 		return self.is_admin
-	def has_perm(self, perm, obj=None):
-		return True
-	def has_module_perms(self, app_label):
-		return True
-	def get_full_name(self):
-		return self.username
-	def get_short_name(self):
-		return self.username
-	def __unicode__(self):
-		return self.username
 
 	class Meta:
 		verbose_name_plural = '用户'
+
 
 class Group(models.Model):
 	'''The grop table one group have one leader who comes 
