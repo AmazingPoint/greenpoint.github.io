@@ -6,6 +6,6 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^admin/', include(admin.site.urls)),
 	url(r'accounts/login/$', auth_views.login, {'template_name': 'osb/login.html'}),
-	url(r'accounts/logout/$', auth_views.logout),
+	url(r'accounts/logout/$', auth_views.logout, {'template_name': 'osb/logout.html'}),
     url(r'^osb/', include('osb.urls')),
 )
