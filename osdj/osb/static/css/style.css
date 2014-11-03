@@ -1,56 +1,39 @@
-body{margin: 0; padding: 0; font-family: arial,helvetica,sans-serif; font-size:13px;}
-ul {list-style-type: none; padding: 0;}
-li {float: left;}
-img{border: 0;}
-h2{font-size: 23px; margin: 5px auto;  font-weight: none;}
-h3{font-size: 18px; margin: 5px auto;  font-weight: none;}
-h4{font-size: 16px; margin: 3px auto;  font-style: none;}
-p{line-height: 18px; color: #666;}
-.haedline { color: #42939d; text-decoration: none;}
-a { color: #555; text-decoration: none;}
-input{outline: none;}
+/*The color for a */
+.greenlink a{color:#339966;}
+.whitelink a{color:#ffffff;}
 
-/* menu and top*/
-.top{width: 100%; height: 100%; background: #eeeeee;}
-.top hr{ height: 5px; margin: 0; background-color: #339966;}
-#top_content{width: 960px; height: 100px; margin: 0px auto;}
+/*custom from bootstrap */
+.navbar-custom { background-color:#339966; color:#ffffff; border-radius:0; }
+.navbar-custom .navbar-nav > li > a { color:#fff; padding-left:20px; padding-right:20px; }
+.navbar-custom .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus { color: #ffffff; background-color:transparent; }
+.navbar-custom .navbar-nav > li > a:hover, .nav > li > a:focus { text-decoration: none; background-color: #5cb85c; } 
+.navbar-custom .navbar-brand { color:#eeeeee; }
+.navbar-custom .navbar-toggle { background-color:#eeeeee; }
+.navbar-custom .icon-bar { background-color:#5cb85c;}
+.pagination > li > a{color: #339966;}
+.pagination > li > a:hover{color: #FFF;}
+.pagination>.active>a,
+.pagination>.active>span,
+.pagination>.active>a:hover, 
+.pagination>.active>span:hover, 
+.pagination>.active>a:focus,
+.pagination>.active>span:focus{background-color: #339966; border-color: #339966;}
+.navright{text-align: right;}
+.navcenter{text-align: center;}
+.panel-default{border-color: #339966;}
+.panel-default >.panel-heading {background-color:#339966; color:#fff;}
+.panel-orange{border-color: #ffcc99;}
+.panel-orange >.panel-heading {background-color:#ffcc99; color:#fff;}
+.badge-green {background-color:#339966;}
+.badge-orange{background-color:#ffcc99;}
+.list-unstyled li{margin:8px 5px;}
 
-#menu {width: 960px; margin:auto; }
-#menu ul{display: block; padding: 0; margin: 0; height: 48px; font-size: 18px; color: #42969e;}
-#menu ul li{margin:30px 30px 10px 0px; line-height: 48px; height: 48px;}
-#menu input{display:block; height: 28px; width: 350px; margin-top: -10px; float: right; border: 1px solid #339966; color: #666; }
+/* index topics list style*/
+.topics-li{margin:40px auto; border-top:solid 1px #339966; width:100%; overflow: hidden;}
+.topics-like{background:#339966; width:70px; height:80px; text-align:center; padding-top:10px; float:left;}
+.topics-info{float:left; width:85%; margin-top: -10px; margin-left:20px;}
+.topics-info p{background:#f0f0f0;}
+.topics-info span{float:right;}
 
-/*userbar user's menu*/
-#userbar{float: right; position:relative;  width: 165px;background: #339966; z-index: 2; margin-top: -1px;}
-#userbar ul{width: 165px; padding: 0px; margin: 0 20px;font-size: 13px; color: #fff;}
-#userbar ul li{width: 165px; height: 30px; line-height: 30px; }
-#userbar img { margin-left: 45px; width: 10px; height: 10px; }
 
-/*主页面*/
-.main{width: 960px; margin: 30px auto;}
-.left{width: 630px; float: left;}
-.right{width: 260px; float: right;}
 
-/*信息列表*/
-.left ul li {width: 620px; margin: 28px 5px; color: #666; }
-.simpleshow{border-top: 1px solid #339966; width: 620px;}
-.showstyle{float: left; width: 68px; height: 76px; background: #339966; text-align: center; color: #fff; overflow:hidden;}
-.showstyle img{margin-top: 10px;}
-.showcontent{float: right; width: 520px;}
-.showcontent p {display: block; background: #f1f1f1; font-size: 13px;}
-.showcontent em{display: block; float: right;}
-
-/*推荐信息 默认绿色模块*/
-.right_modle{background: #f4f4f4; padding: 3px 10px; font-size: 14px; color: #888; margin-bottom: 20px;}
-.right_modle h4{margin: 10px; color: #339966;}
-.right_modle ul { width: 250px; height: 200px; margin: 10px auto; overflow: hidden;}
-.right_modle ul li{ margin: 7px; height: 14px; line-height: 14px; width: 250px; overflow: hidden;  }
-.right_modle ul li strong{color: #339966;}
-
-/*橘色模块*/
-.orange h4{color:#ff9055;}
-.orange ul li a{width: auto; text-decoration: none; color: #ff9055; }
-
-/*粉色模块*/
-.pink h4{color: #ea95e8;}
-.pink ul li strong{color: #ea95e8;}
