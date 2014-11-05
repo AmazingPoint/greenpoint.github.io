@@ -10,6 +10,7 @@ sys.setdefaultencoding('utf-8')
 ###############################
 
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import (
 	BaseUserManager, AbstractBaseUser
 )
@@ -49,6 +50,7 @@ class User(AbstractBaseUser):
 	picture = models.ImageField('头像', upload_to='userImages', null=True, blank=True)
 	is_active = models.BooleanField(default=True)
 	is_admin = models.BooleanField(default=False)
+	following = models.ManyToManyField('self','关注的人')
 		
 	objects = OsbUserManager()
 
@@ -93,7 +95,6 @@ class Group(models.Model):
 	image = models.ImageField('展示图片', upload_to='groupImages', null=True, blank=True)
 	def __unicode__(self):
 		return self.name
-
 	class Meta:
 		verbose_name_plural = '小组'
 
@@ -108,10 +109,9 @@ class Topics(models.Model):
 	group = models.ForeignKey(Group, verbose_name='所属小组' )
 	creator = models.ForeignKey(User, verbose_name='创建者')
 	likeduser = models.ManyToManyField(User, verbose_name='喜欢的人',  related_name='likegroupuser', null=True, blank=True)
-	createdate = models.DateTimeField('创建时间', null=True, blank=True)
+	createdate = models.DateTimeField('创建时间', default=timezone.now())
 	def __unicode__(self):
 		return self.headline
-
 	class Meta:
 		verbose_name_plural = '话题'
 
@@ -126,8 +126,21 @@ class  Comment(models.Model):
 	commenter = models.ForeignKey(User, verbose_name='评论者', related_name='commentcommentuser')
 	likeduser = models.ManyToManyField(User, verbose_name='喜欢的用户', related_name='likecommentsuser')
 	createdate = models.DateTimeField('评论时间')
-	reply = models.ForeignKey('self', null=True, blank=True,verbose_name='回复')
+	father = models.ForeignKey('self', null=True, blank=True,verbose_name='回复评论')
 	def __unicode__(self):
 		return self.content[0:10]
 	class Meta:
 		verbose_name_plural = '评论'
+
+
+class ChatMessage(models.Model):
+	'''Chat Message is a user and another chat
+	聊天信息是一个用户和另一个用户之间聊天的内容'''
+	message = models.CharField('聊天内容', max_length=128)
+	fromuser = models.ForeignKey(User, verbose_name='发送方', related_name='sender')
+	touser = models.ForeignKey(User, verbose_name='接收方', related_name='receiver')
+	createtime = models.DateTimeField('发送时间', default=timezone.now())
+	def __unicode__(self):
+		return self.message
+	class Meta:
+		verbose_name_plural = '站内私信'

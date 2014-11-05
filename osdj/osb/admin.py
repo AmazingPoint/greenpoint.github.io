@@ -13,7 +13,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group as SysGroup
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from osb.models import User, Group, Topics, Comment
+from osb.models import User, Group, Topics, Comment, ChatMessage
 
 class UserCreationForm(forms.ModelForm):
 	'''A form for creating new users. Includes all the 
@@ -58,7 +58,7 @@ class OsbUserAdmin(UserAdmin):
 	fieldsets = (
 			(None, {'fields':('username', 'email', 'password')}),
 			('详细信息', {'fields':('truename', 'nowcity', 'sex', 'birthday', 
-				'telphone', 'picture', 'soldiercity', 'joindate',)}),
+				'telphone', 'picture', 'soldiercity', 'joindate','following')}),
 			('权限', {'fields':('is_admin',)}),
 			#('重要事件', {'fields':('last_login')}),
 	)
@@ -80,3 +80,4 @@ admin.site.register(Group)
 admin.site.register(Topics)
 admin.site.register(Comment)
 admin.site.unregister(SysGroup)
+admin.site.register(ChatMessage)

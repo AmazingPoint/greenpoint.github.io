@@ -1,0 +1,120 @@
+{% extends "osb/base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<script>
+var friendid = null;
+var friend = null;
+var friendpicture = null;
+$("document").ready(function(){
+	//每三秒pull
+	setInterval("getMessage()",3000)
+	
+	$(".panel-chat").css("height", $(window).height()-130);
+	$(".chat-body").css("height", $(window).height()-230);
+	$(".firend-body").css("height", $(window).height()-190);
+	$(window).resize(function(){
+		$(".panel-chat").css("height", $(window).height()-130);
+		$(".chat-body").css("height", $(window).height()-230);
+		$(".firend-body").css("height", $(window).height()-190);
+	});
+
+
+	//更改接收方（touser）
+	$(".list-friend").click(function(){
+		friendid = $(this).attr("id");
+		friend = $(this).attr("data-friend");
+		friendpicture = $(this).attr("data-friendpicture");
+		$(".panel-title").text("与"+friend+"交谈");	
+		$(".chat-body").html(null)
+		$(this).css("background-color", "#339966").siblings().css("background-color", "#eee");
+	});
+
+
+	//按下发送按钮 激活发送事件 
+	$("#txtmessage").keydown(function(e){
+		if(e.keyCode == 13){
+			sendMessage();
+		}
+	});
+	$("#send").click(sendMessage);
+
+	
+	
+	//发送信息
+	function sendMessage(){
+		var txtmessage = $("#txtmessage").val();
+		if(txtmessage.length > 0){
+			$(".chat-body").append("<div class='message-panel'><img class='img-circle poster' src='{{ user.picture.url }}'><p class='bubble-right'><span></span>"+ txtmessage +"<p></div>");
+			$(".chat-body").animate({scrollTop:$(".chat-body")[0].scrollHeight}, 'slow');
+			$("#txtmessage").val('');
+	
+			$.get("/osb/sendMessage/"+friendid+"/",
+			{message:txtmessage},
+			function(data){
+			//alert(data);
+			});
+		}
+	}
+
+});
+
+//防止重复变量
+var messageid = 0;
+var premessage = null;
+
+//接受当前信息
+function getMessage(){
+	$.get("/osb/getMessage/"+friendid+"/",
+	function(message){
+		if(messageid == 0 | !(premessage == message) ){
+			$(".chat-body").append("<div id='"+ messageid + "'class='message-panel'><img class='img-circle receiver' src='/media/"+friendpicture+"'><p class='bubble-left'><span></span>"+ message +"<p></div>");
+			messageid++	
+			premessage = message
+		}
+		$(".chat-body").animate({scrollTop:$(".chat-body")[0].scrollHeight}, 'slow');
+	})
+}
+
+</script>
+
+<div class="col-md-3 hidden-xs">
+<div class="panel panel-orange panel-chat">
+	<div class="panel-heading">
+		<h3 class="panel-title">好友列表</h3>
+	</div>
+	<div class="panel-body panel-body-chat">
+		<div class="friend-body ">
+		{% for friend in friend_list %}
+		<div class="list-friend" id="{{ friend.id }}" data-friend="{{ friend }}" data-friendpicture="{{ friend.picture }}">
+			<img class="img-circle" src="{{ friend.picture.url }}">
+			<p> {{ friend.username }}</p>
+		</div>
+		{% endfor %}
+		</div>
+	</div>
+</div>
+</div>
+{% endblock %}
+
+{% block right %}
+<div class="col-md-9">
+<div class="panel panel-default panel-chat">
+	<div class="panel-heading">
+		<h3 class="panel-title"></h3>
+	</div>
+	<div class="panel-body">
+		<div class="chat-body">
+		</div>
+		<div class="chat-foot">
+			<div class="input-group">
+				<input type="text" class="form-control" id="txtmessage">
+				<span class="input-group-btn">
+				<button class="btn btn-success" id="send" type="button">发送</button>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+{% endblock %}

@@ -1,142 +1,72 @@
+{% extends "osb/base.html"%}
 {% load static from staticfiles %}
-<!DOCTYPE html>
-<html lang="zh-cn">
-<head>
-	<meta charset="UTF-8">
-	<!-- bootstrap -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
-	<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
-	<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href='{% static 'css/style.css' %}'>
-	<!-- endbootsrap -->
-	<title>OLD SOLDIER</title>
-</head>
-<body>
-	<!-- nav bar -->
-	<nav class="navbar navbar-custom navbar-static-top" role="navigation">
-	<div class="container">
-	<!--mobile-->
-	<div class="navbar-header">
-		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</button>
-		<a class="navbar-brand" href="#">LAOBING</a>
-	</div><!--/header-->
-	<!-- navbar truemenu--->
-	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		<ul class="nav navbar-nav">
-			<li><a href="#">寻找老伙伴</a></li>
-			<li><a href="#">发现小组</a></li>
-			<li><a href="#">老兵圈</a></li>
-		</ul>
-		<ul class="nav navbar-nav navbar-right">
-			{% if user.is_authenticated %}
-			<li><a href="#">{{ user.username }}</a></li>
-			<li><a href="accounts/logout">注销</a></li>
-			{% else %}
-			<li><a href="accounts/login">登录</a></li>
-			<li><a href="#">注册</a></li>
-			{% endif %}
-		</ul>
-	</div><!--/collapse-->
-	</div><!--/container-->
-	</nav>
-	
-	<!--login window-->
-	<div id="embbnux-login-popup" class="modal fade in"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4>登陆</h4>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-info" data-dismiss="modal">关闭</button>
-				</div>
+{% block content %}
+<div class="col-md-8">
+<h4>话题精选</h4>
+<ul class="list-unstyled">
+	{% for topics in top_topics_list %}
+	<li>
+		<div class="topics-li">
+			<div class="hidden-xs topics-like">
+				<img src='{% static 'img/star.png' %}'/>	
+				<br/>
+				{{ topics.likeduser.count }}
 			</div>
+			<div class="topics-info greenlink">
+				<h3><a href="#">{{ topics.headline }}</a></h3>	
+				<p>{{ topics.description }}</p>
+				<em><a href="#">{{ topics.creator }}</a>发布于<a href="#">老冰</a>{{ topics.group }}</em>
+				<span>{{ topics.createdate }}</span>
+			</div>
+		</div>	
+	</li>
+	{% endfor %}
+</ul>
+<nav class="navcenter">
+	<ul class="pagination">
+		<li class="disabled"><a href="#">&laquo;</a></li>
+		<li class="active"><a href="#">1</a></li>
+		<li><a href="#">2</a></li>
+		<li><a href="#">3</a></li>
+		<li><a href="#">4</a></li>
+		<li><a href="#">5</a></li>
+		<li><a href="#">6</a></li>
+		<li><a href="#">7</a></li>
+		<li><a href="#">8</a></li>
+		<li><a href="#">&raquo;</a></li>
+	</ul>
+</nav>
+</div>
+{% endblock %}
+
+<!--right on desktop-->
+{% block right%}
+<div class="col-md-4">
+<div class="panel panel-default ">
+	<div class="panel-heading">战友最爱小组</div>
+		<div class="panel-body">
+			<ul class="list-unstyled">
+				<li>
+					<span class="badge badge-green">
+					<a href="#">小组名字</a></span>现有<span class="badge badge-green">102301</span>人,共 
+					<span class="badge badge-green">1928</span>个话题...
+				</li> 
+			</ul>
 		</div>
 	</div>
 
-
-	<div class="container" style="margin-top:20px;">
-		<div class="row">
-			<!-- left on desktop-->
-			<div class="col-md-8">
-				<h4>话题精选</h4>
+	<div class="panel panel-orange orange">
+		<div class="panel-heading">最近加入战友</div>
+			<div class="panel-body">
 				<ul class="list-unstyled">
-					{% for topics in top_topics_list %}
 					<li>
-					<div class="topics-li">
-						<div class="hidden-xs topics-like">
-							<img src='{% static 'img/star.png' %}'/>	
-							<br/>
-							{{ topics.likeduser.count }}
-						</div>
-						<div class="topics-info greenlink">
-							<h3><a href="#">{{ topics.headline }}</a></h3>	
-							<p>{{ topics.description }}</p>
-							<em><a href="#">{{ topics.creator }}</a>发布于<a href="#">老冰</a>{{ topics.group }}</em><span>{{ topics.createdate }}</span>
-						</div>
-					</div>	
-					</li>
-					{% endfor %}
+					<span class="badge badge-orange"><a href="#">安明哲</a></span>
+					曾经在陕西商洛服役
+					<span class="badge badge-orange"><a href="#">1999</a></span>年入伍
+					</li>	
 				</ul>
-				<nav class="navcenter">
-					<ul class="pagination">
-						<li class="disabled"><a href="#">&laquo;</a></li>
-						<li class="active"><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#">6</a></li>
-						<li><a href="#">7</a></li>
-						<li><a href="#">8</a></li>
-						<li><a href="#">&raquo;</a></li>
-					</ul>
-				</nav>
-			</div>
-			<!--right on desktop-->
-			<div class="col-md-4 whitelink">
-				<div class="panel panel-default ">
-					<div class="panel-heading">
-						战友最爱小组
-					</div>
-					<div class="panel-body">
-						<ul class="list-unstyled">
-							<li><span class="badge badge-green"><a href="#">小组名字</a></span>现有<span class="badge badge-green">102301</span>人,共 <span class="badge badge-green">1928</span>个话题...</li> 
-							<li><span class="badge badge-green"><a href="#">小组名字</a></span>现有<span class="badge badge-green">102301</span>人,共 <span class="badge badge-green">1928</span>个话题...</li> 
-							<li><span class="badge badge-green"><a href="#">小组名字</a></span>现有<span class="badge badge-green">102301</span>人,共 <span class="badge badge-green">1928</span>个话题...</li> 
-							<li><span class="badge badge-green"><a href="#">小组名字</a></span>现有<span class="badge badge-green">102301</span>人,共 <span class="badge badge-green">1928</span>个话题...</li> 
-							<li><span class="badge badge-green"><a href="#">小组名字</a></span>现有<span class="badge badge-green">102301</span>人,共 <span class="badge badge-green">1928</span>个话题...</li> 
-							<li><span class="badge badge-green"><a href="#">小组名字</a></span>现有<span class="badge badge-green">102301</span>人,共 <span class="badge badge-green">1928</span>个话题...</li> 
-							<li><span class="badge badge-green"><a href="#">小组名字</a></span>现有<span class="badge badge-green">102301</span>人,共 <span class="badge badge-green">1928</span>个话题...</li> 
-						</ul>
-					</div>
-				</div>
-
-				<div class="panel panel-orange orange">
-					<div class="panel-heading">
-						最近加入战友	
-					</div>
-					<div class="panel-body">
-						<ul class="list-unstyled">
-							<li><span class="badge badge-orange"><a href="#">安明哲</a></span>曾经在陕西商洛服役<span class="badge badge-orange"><a href="#">1999</a></span>年入伍</li>	
-							<li><span class="badge badge-orange"><a href="#">安明哲</a></span>曾经在陕西商洛服役<span class="badge badge-orange"><a href="#">1999</a></span>年入伍</li>	
-							<li><span class="badge badge-orange"><a href="#">安明哲</a></span>曾经在陕西商洛服役<span class="badge badge-orange"><a href="#">1999</a></span>年入伍</li>	
-							<li><span class="badge badge-orange"><a href="#">安明哲</a></span>曾经在陕西商洛服役<span class="badge badge-orange"><a href="#">1999</a></span>年入伍</li>	
-							<li><span class="badge badge-orange"><a href="#">安明哲</a></span>曾经在陕西商洛服役<span class="badge badge-orange"><a href="#">1999</a></span>年入伍</li>	
-							<li><span class="badge badge-orange"><a href="#">安明哲</a></span>曾经在陕西商洛服役<span class="badge badge-orange"><a href="#">1999</a></span>年入伍</li>	
-							<li><span class="badge badge-orange"><a href="#">安明哲</a></span>曾经在陕西商洛服役<span class="badge badge-orange"><a href="#">1999</a></span>年入伍</li>	
-						</ul>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
-</body>
-</html>
+</div>
+	{% endblock %}

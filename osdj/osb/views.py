@@ -12,6 +12,7 @@ sys.setdefaultencoding('utf-8')
 from django.shortcuts import render
 from osb.models import *
 from django.db.models import Count
+from django.http import HttpResponse
 
 def index(request):
 	#获取用户最喜欢的8个话题
@@ -29,3 +30,28 @@ def index(request):
 			order_by('-num_member')[0:7]
 	return render(request, 'osb/index.html', locals())
 
+def chat(request):
+	#获取朋友列表
+	#get friendlist
+	user = request.user
+	friend_list = user.following.all()
+	return render(request, 'osb/chat.html', locals())
+
+def sendMessage(request, userid):
+	'''发送信息到服务器
+	send message to server'''
+	fu = request.user
+	tu = User.objects.get(pk=userid)
+	msg = request.GET['message']
+	cm = ChatMessage(fromuser=fu, touser=tu, message=msg)
+	cm.save()
+	return HttpResponse("success")
+
+def getMessage(request, fuserid):
+	'''从服务器获取最新的10条信息
+	get 10 new message '''
+	fuser = User.objects.get(pk=fuserid)
+	print(fuser)
+	message =ChatMessage.objects.filter(fromuser=fuser).order_by('-id')[0:1]
+	print(message)
+	return HttpResponse(message)
