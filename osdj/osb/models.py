@@ -140,6 +140,7 @@ class ChatMessage(models.Model):
 	fromuser = models.ForeignKey(User, verbose_name='发送方', related_name='sender')
 	touser = models.ForeignKey(User, verbose_name='接收方', related_name='receiver')
 	createtime = models.DateTimeField('发送时间', default=timezone.now())
+	is_read = models.BooleanField(default=False)
 	def __unicode__(self):
 		return self.message
 	class Meta:

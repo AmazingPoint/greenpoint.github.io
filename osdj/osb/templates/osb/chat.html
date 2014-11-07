@@ -7,9 +7,7 @@ var friendid = null;
 var friend = null;
 var friendpicture = null;
 $("document").ready(function(){
-	//每三秒pull
-	setInterval("getMessage()",3000)
-	
+
 	$(".panel-chat").css("height", $(window).height()-130);
 	$(".chat-body").css("height", $(window).height()-230);
 	$(".firend-body").css("height", $(window).height()-190);
@@ -25,9 +23,11 @@ $("document").ready(function(){
 		friendid = $(this).attr("id");
 		friend = $(this).attr("data-friend");
 		friendpicture = $(this).attr("data-friendpicture");
-		$(".panel-title").text("与"+friend+"交谈");	
+		$(".panel-title").text(friend);	
 		$(".chat-body").html(null)
 		$(this).css("background-color", "#339966").siblings().css("background-color", "#eee");
+		//每三秒pull
+		setInterval("getMessage()",3000)
 	});
 
 
@@ -59,21 +59,17 @@ $("document").ready(function(){
 
 });
 
-//防止重复变量
-var messageid = 0;
-var premessage = null;
-
 //接受当前信息
 function getMessage(){
 	$.get("/osb/getMessage/"+friendid+"/",
 	function(message){
-		if(messageid == 0 | !(premessage == message) ){
-			$(".chat-body").append("<div id='"+ messageid + "'class='message-panel'><img class='img-circle receiver' src='/media/"+friendpicture+"'><p class='bubble-left'><span></span>"+ message +"<p></div>");
-			messageid++	
-			premessage = message
+		for(i=0; i<eval(message).length; i++){
+			$(".chat-body").append("<div class='message-panel'><img class='img-circle receiver' src='/media/"+friendpicture+"'><p class='bubble-left'><span></span>"+ message[i]['fields']['message'] +"<p></div>");
+			$.get("/osb/setMessageReaded/"+message[i]['pk']+"/");
+			$(".chat-body").animate({scrollTop:$(".chat-body")[0].scrollHeight}, 'slow');
 		}
-		$(".chat-body").animate({scrollTop:$(".chat-body")[0].scrollHeight}, 'slow');
-	})
+	})	
+	
 }
 
 </script>

@@ -7,4 +7,5 @@ urlpatterns = patterns('',
 	url(r'^chat/$', views.chat, name="chat"),
 	url(r'^sendMessage/(?P<userid>\d+)/$', views.sendMessage, name="sendMessage"),
 	url(r'^getMessage/(?P<fuserid>\d+)/$', views.getMessage, name="getMessage"),
+	url(r'^setMessageReaded/(?P<messageid>\d+)/$', views.setMessageReaded, name="setMessageReaded"),
 )
