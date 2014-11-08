@@ -7,7 +7,9 @@ var friendid = null;
 var friend = null;
 var friendpicture = null;
 $("document").ready(function(){
-
+	getFromuser()
+	setInterval("getFromuser()",3000)
+	
 	$(".panel-chat").css("height", $(window).height()-130);
 	$(".chat-body").css("height", $(window).height()-230);
 	$(".firend-body").css("height", $(window).height()-190);
@@ -17,10 +19,9 @@ $("document").ready(function(){
 		$(".firend-body").css("height", $(window).height()-190);
 	});
 
-
 	//更改接收方（touser）
 	$(".list-friend").click(function(){
-		friendid = $(this).attr("id");
+		friendid = $(this).attr("data-friendid");
 		friend = $(this).attr("data-friend");
 		friendpicture = $(this).attr("data-friendpicture");
 		$(".panel-title").text(friend);	
@@ -69,7 +70,16 @@ function getMessage(){
 			$(".chat-body").animate({scrollTop:$(".chat-body")[0].scrollHeight}, 'slow');
 		}
 	})	
-	
+}
+
+
+//检查新消息并提示
+function getFromuser(){
+	$.get("/osb/getFromuser",
+		function(data){
+			$("#unread-friend-body").html(data);
+		}
+	);
 }
 
 </script>
@@ -80,9 +90,11 @@ function getMessage(){
 		<h3 class="panel-title">好友列表</h3>
 	</div>
 	<div class="panel-body panel-body-chat">
+		<div class="friend-body" id="unread-friend-body">
+		</div>
 		<div class="friend-body ">
 		{% for friend in friend_list %}
-		<div class="list-friend" id="{{ friend.id }}" data-friend="{{ friend }}" data-friendpicture="{{ friend.picture }}">
+		<div class="list-friend" data-friend="{{ friend }}" data-friendpicture="{{ friend.picture }}" data-friendid="{{ friend.id}}">
 			<img class="img-circle" src="{{ friend.picture.url }}">
 			<p> {{ friend.username }}</p>
 		</div>

@@ -1,0 +1,22 @@
+<script>
+	//更改接收方（touser）
+	$(".unread-list-friend").click(function(){
+		friendid = $(this).attr("data-friendid");
+		friend = $(this).attr("data-friend");
+		friendpicture = $(this).attr("data-friendpicture");
+		$(".panel-title").text(friend);	
+		$(".chat-body").html(null)
+		$(this).css("background-color", "#339966").siblings().css("background-color", "#eee");
+		$(this).fadeOut()
+		//每三秒pull
+		setInterval("getMessage()",3000)
+	});
+</script>
+
+{% for friend in unread_friend_list %}
+<div class="list-friend unread-list-friend" data-friendid="{{ friend.id}}" data-friend="{{ friend }}" data-friendpicture="{{ friend.picture }}">
+<img class="img-circle" src="{{ friend.picture.url }}">
+<p> {{ friend.username }}</p>
+<span class="badge" style="background:#cc0000;">新消息</span>
+</div>
+{% endfor %}

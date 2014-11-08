@@ -14,6 +14,8 @@ from osb.models import *
 from django.db.models import Count
 from django.http import HttpResponse
 from django.core import serializers
+from django.template.loader import get_template
+from django.template import Context
 
 def index(request):
 	'''获取用户最喜欢的8个话题
@@ -36,8 +38,23 @@ def chat(request):
 	get friendlist'''
 	user = request.user
 	friend_list = user.following.filter(following=user)
-	print(friend_list)
 	return render(request, 'osb/chat.html', locals())
+
+def getFromuser(request):
+	'''获取发送消息且消息没被读取的用户
+	get the friend who sent message to you'''
+	user = request.user
+	messages = ChatMessage.objects.filter(touser=user).filter(is_read=False)
+	message_list = list(messages)
+	friend_list = []
+	for message in message_list:
+		if(message.fromuser not in friend_list):
+			friend_list.append(message.fromuser)
+	t = get_template('osb/chat_friend.html')
+	html = t.render(Context({'unread_friend_list': friend_list }))
+	return HttpResponse(html)
+	
+
 
 def sendMessage(request, userid):
 	'''发送信息到服务器
@@ -59,9 +76,17 @@ def getMessage(request, fuserid):
 	data = serializers.serialize("json", message)
 	return HttpResponse(data, content_type='application/json')
 
-
 def setMessageReaded(request, messageid):
+	'''设置消息状态为已读
+	set the message is readed'''
 	message = ChatMessage.objects.get(pk=messageid)
 	message.is_read = True
 	message.save()
 	return True
+
+def checkMessageNumber(request):
+	'''从服务器获取所有没有被读取的消息并按用户分类
+	get all message which not be readed'''
+	user = request.user
+	number = ChatMessage.objects.filter(touser=user).filter(is_read=False).count()
+	return number
