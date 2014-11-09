@@ -41,7 +41,6 @@ $("document").ready(function(){
 	$("#send").click(sendMessage);
 
 	
-	
 	//发送信息
 	function sendMessage(){
 		var txtmessage = $("#txtmessage").val();
@@ -49,7 +48,6 @@ $("document").ready(function(){
 			$(".chat-body").append("<div class='message-panel'><img class='img-circle poster' src='{{ user.picture.url }}'><p class='bubble-right'><span></span>"+ txtmessage +"<p></div>");
 			$(".chat-body").animate({scrollTop:$(".chat-body")[0].scrollHeight}, 'slow');
 			$("#txtmessage").val('');
-	
 			$.get("/osb/sendMessage/"+friendid+"/",
 			{message:txtmessage},
 			function(data){

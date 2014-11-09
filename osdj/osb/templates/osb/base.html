@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
 	<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<script src="{% static "js/osb_base.js" %}"></script>
 	<link rel="stylesheet" href='{% static 'css/style.css' %}'>
 	<!-- endbootsrap -->
 	<title>OLD SOLDIER</title>
@@ -35,7 +36,8 @@
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
 		{% if user.is_authenticated %}
-		<li><a href="/osb/chat">私信</a></li>
+		<li><a href="/osb/chat">私信<span id="messageCount" class='badge badge-orange'></span></a>
+		</li>
 		<li><a href="#">{{ user.username }}</a></li>
 		<li><a href="accounts/logout">注销</a></li>
 		{% else %}

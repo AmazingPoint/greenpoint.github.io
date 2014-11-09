@@ -72,7 +72,6 @@ def getMessage(request, fuserid):
 	touser = request.user
 	fuser = User.objects.get(pk=fuserid)
 	message = ChatMessage.objects.filter(touser=touser).filter(fromuser=fuser).filter(is_read=False).order_by('id')
-	print(message)
 	data = serializers.serialize("json", message)
 	return HttpResponse(data, content_type='application/json')
 
@@ -85,8 +84,9 @@ def setMessageReaded(request, messageid):
 	return True
 
 def checkMessageNumber(request):
-	'''从服务器获取所有没有被读取的消息并按用户分类
-	get all message which not be readed'''
+	'''从服务器获取未读消息的数量
+	get the message number which not be readed'''
 	user = request.user
 	number = ChatMessage.objects.filter(touser=user).filter(is_read=False).count()
-	return number
+	print(number)
+	return HttpResponse(number)
