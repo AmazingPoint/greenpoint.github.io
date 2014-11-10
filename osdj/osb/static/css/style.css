@@ -58,8 +58,7 @@
    	border-color:transparent transparent transparent #339966;}
 
 /*friend-list*/
-.list-friend{float:left; padding: 0px; margin: 0px; width:100%;}
-.list-friend {height:50; width:100%; overflow:hidden;  padding:10px 8px 0px 8px; background:#eeeeee;}
+.list-friend {height:50; width:100%; overflow:hidden;  padding:10px 8px 0px 8px; background:#f2f2f2; border-bottom:1px solid #ddd;}
 .list-friend  img{display:block; float:left;}
-.list-friend  p{display:block; float:left; margin-left:5px; line-height:40px;}
+.list-friend  p{display:block; float:left; margin-left:15px; line-height:40px; color:#555; font-size:15px; font-weight:bold;}
 .list-friend span{float:right}

@@ -7,8 +7,8 @@ var friendid = null;
 var friend = null;
 var friendpicture = null;
 $("document").ready(function(){
-	getFromuser()
-	setInterval("getFromuser()",3000)
+	getFromuser();
+	setInterval("getFromuser()",3000);
 	
 	$(".panel-chat").css("height", $(window).height()-130);
 	$(".chat-body").css("height", $(window).height()-230);
@@ -44,6 +44,9 @@ $("document").ready(function(){
 	//发送信息
 	function sendMessage(){
 		var txtmessage = $("#txtmessage").val();
+		if($("#friend-name").text() == ''){
+			$("#friend-name").append("<p>请在左边选择好友，否则我不知道要发送消息给谁？</p>")
+		}
 		if(txtmessage.length > 0){
 			$(".chat-body").append("<div class='message-panel'><img class='img-circle poster' src='{{ user.picture.url }}'><p class='bubble-right'><span></span>"+ txtmessage +"<p></div>");
 			$(".chat-body").animate({scrollTop:$(".chat-body")[0].scrollHeight}, 'slow');
@@ -88,6 +91,7 @@ function getFromuser(){
 		<h3 class="panel-title">好友列表</h3>
 	</div>
 	<div class="friend-body">
+		<div id="unread-friend-body"></div>
 		{% for friend in friend_list %}
 		<div class="list-friend" data-friend="{{ friend }}" data-friendpicture="{{ friend.picture }}" data-friendid="{{ friend.id}}">
 			<img class="img-circle" src="{{ friend.picture.url }}">
@@ -103,7 +107,7 @@ function getFromuser(){
 <div class="col-md-9">
 <div class="panel panel-default panel-chat">
 	<div class="panel-heading">
-		<h3 class="panel-title"></h3>
+		<h3 class="panel-title" id="friend-name"></h3>
 	</div>
 	<div class="panel-body">
 		<div class="chat-body">
