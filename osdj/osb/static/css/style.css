@@ -26,7 +26,7 @@
 .panel-orange >.panel-heading {background-color:#ffcc99; color:#fff;}
 .panel-chat{width:100%; margin:-10px 0 0px 0px;}
 .chat-body{overflow:auto;}
-.friend-body{overflow:auto; float:left;}
+.friend-body{overflow:auto;}
 .badge-green {background-color:#339966;}
 .badge-orange{background-color:#ffcc99;}
 .list-unstyled li{margin:8px 5px;}

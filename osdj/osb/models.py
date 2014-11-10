@@ -47,7 +47,7 @@ class User(AbstractBaseUser):
 #	state = models.BooleanField('当前状态', default=False)
 	birthday = models.DateField('生日', null=True, blank=True)
 	telphone = models.CharField('电话', max_length=14, null=True, blank=True)
-	picture = models.ImageField('头像', upload_to='userImages', null=True, blank=True)
+	picture = models.ImageField('头像', upload_to='userImages', default="default.jpg")
 	is_active = models.BooleanField(default=True)
 	is_admin = models.BooleanField(default=False)
 	following = models.ManyToManyField('self','关注的人')

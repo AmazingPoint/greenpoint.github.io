@@ -86,6 +86,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR,  'media')
+
 TEMPLATES_DIRS = (
 	BASE_DIR + '/templates/',	
 	os.path.join(BASE_DIR, 'templates'),
