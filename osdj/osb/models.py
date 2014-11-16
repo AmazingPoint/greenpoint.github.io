@@ -17,19 +17,16 @@ from django.contrib.auth.models import (
 
 class OsbUserManager(BaseUserManager):
 	#override the create_user
-	def create_user(self, username, email, password=None):
-		if not email:
-			raise ValueError('请填写您的邮箱')
+	def create_user(self, username, password=None):
 		user = self.model(				           
 			username=username,
-			email=OsbUserManager.normalize_email(email),
 		)
 		user.set_password(password)
 		user.save(using=self._db)
 		return user
 	#override the create_superuser
-	def create_superuser(self, username, email, password=None):
-		user = self.create_user(username, email, password)
+	def create_superuser(self, username, password=None):
+		user = self.create_user(username, password)
 		user.is_admin = True
 		user.save(using=self._db)
 		return user
@@ -37,14 +34,12 @@ class OsbUserManager(BaseUserManager):
 class User(AbstractBaseUser):
 	'''The information for user, 用户基本信息'''
 	username = models.CharField('用户名', max_length=48, unique=True)
-#	password = models.CharField('密码', max_length=128)
 	truename = models.CharField('真名', max_length=32, null=True, blank=True)
 	nowcity = models.CharField('现居城市', max_length=42, null=True, blank=True)
 	soldiercity = models.CharField('服役地点', max_length=42, null=True, blank=True)
 	joindate = models.DateField('入伍年份', null=True, blank=True)
-	email = models.EmailField('邮箱', max_length=128, unique=True)
+	email = models.EmailField('邮箱', max_length=128, null=True, blank=True)
 	sex = models.CharField('性别', max_length=4, null=True, blank=True)
-#	state = models.BooleanField('当前状态', default=False)
 	birthday = models.DateField('生日', null=True, blank=True)
 	telphone = models.CharField('电话', max_length=14, null=True, blank=True)
 	picture = models.ImageField('头像', upload_to='userImages', default="default.jpg")
@@ -55,7 +50,6 @@ class User(AbstractBaseUser):
 	objects = OsbUserManager()
 
 	USERNAME_FIELD = 'username'
-	REQUIRED_FIELDS = ('email',)
 
 	def get_full_name(self):
 		return self.username

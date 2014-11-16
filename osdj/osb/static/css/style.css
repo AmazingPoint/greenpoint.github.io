@@ -1,7 +1,8 @@
 /*The color for a */
 .greenlink a{color:#339966;}
 .whitelink a{color:#ffffff;}
-
+a{color:#339966;}
+textarea{width: 100%; resize:none; border-radius:5px; border:1px solid #ccc;}
 /*custom from bootstrap */
 .navbar-custom { background-color:#339966; color:#ffffff; border-radius:0; }
 .navbar-custom .navbar-nav > li > a { color:#fff; padding-left:20px; padding-right:20px; }
@@ -10,7 +11,7 @@
 .navbar-custom .navbar-brand { color:#eeeeee; }
 .navbar-custom .navbar-toggle { background-color:#eeeeee; }
 .navbar-custom .icon-bar { background-color:#5cb85c;}
-.pagination > li > a{color: #339966;}
+.pagination > li > a{color: #339966;} 
 .pagination > li > a:hover{color: #FFF;}
 .pagination>.active>a,
 .pagination>.active>span,
@@ -22,6 +23,7 @@
 .navcenter{text-align: center;}
 .panel-default{border-color: #339966;}
 .panel-default >.panel-heading {background-color:#339966; color:#fff;}
+.badge > a{color: #fff;}
 .panel-orange{border-color: #ffcc99;}
 .panel-orange >.panel-heading {background-color:#ffcc99; color:#fff;}
 .panel-chat{width:100%; margin:-10px 0 0px 0px;}
@@ -62,3 +64,24 @@
 .list-friend  img{display:block; float:left;}
 .list-friend  p{display:block; float:left; margin-left:15px; line-height:40px; color:#555; font-size:15px; font-weight:bold;}
 .list-friend span{float:right}
+
+
+
+/*user-homepage*/
+.user-picture{width: 220px; height: 220px;}
+.glyphicon{margin-right: 10px;}
+.name{margin:20px auto; }
+.user-info{ width: 30%; height: 48px; float: left; text-align: center;}
+.user-info > a{font-size: 24px; line-height: 30px;}
+
+/*users' topics list*/
+.user-custom-picture{width: 48px;  height: 48px; }
+.panel-following-topic-normal{border: 1px solid #ccc; margin-top: 20px; background: #f2f2f2;}
+.panel-following-group-normal{border: 1px solid #ccc; margin-top: 15px; background: #f2f2f2;}
+.user-custom-left{width: 50px; height: 50px; float: left; text-align: center;}
+.user-custom-left > a{font-size: 11px; line-height: 11px; display: block; margin-top: 10px; color: #444;}
+.user-custom-right{width: 80%; float: left; margin-left: 10px; color: #777;}
+.user-custom-right > em{float: right;}
+.user-custom-right > a{margin-right: 10px;}
+.user-custom-right > p{margin-top: 10px;}
+.btn-primary{margin:5px;}

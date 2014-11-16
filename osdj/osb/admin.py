@@ -24,7 +24,7 @@ class UserCreationForm(forms.ModelForm):
 		widget=forms.PasswordInput)
 	class Mate:
 		model = User
-		fields = ('username', 'email')
+		fields = ('username')
 
 	def clean_password2(self):
 		password1 = self.cleaned_data.get('password1')
@@ -54,7 +54,7 @@ class OsbUserAdmin(UserAdmin):
 	form = UserChangeForm
 	add_form = UserCreationForm
 
-	list_display = ('username', 'email', 'is_admin')
+	list_display = ('username', 'email', 'is_admin', 'is_active')
 	fieldsets = (
 			(None, {'fields':('username', 'email', 'password')}),
 			('详细信息', {'fields':('truename', 'nowcity', 'sex', 'birthday', 

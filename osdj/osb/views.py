@@ -9,15 +9,21 @@ sys.setdefaultencoding('utf-8')
 #Author		: AmzingPoint
 ###############################
 
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from osb.models import *
+from django.contrib.auth import authenticate,login,hashers 
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
 from django.template.loader import get_template
 from django.template import Context
 
+
+
 def index(request):
+	user = request.user
+	if user.is_authenticated():
+		return HttpResponseRedirect('/osb/home/'+user.username)
 	'''获取用户最喜欢的8个话题
 	get 7 top topics'''
 	top_topics_list = Topics.objects.\
@@ -33,6 +39,52 @@ def index(request):
 			order_by('-num_member')[0:7]
 	return render(request, 'osb/index.html', locals())
 
+def home(request, username):
+	'''用户主页
+	user's own page'''
+	user = request.user
+	if(user.username == username):
+		user_following_topics_list = Topics.objects.filter(creator = user.following.all())[0:30]
+		user_group_list = Group.objects.filter(leader = user)
+		user_added_group_list = Group.objects.filter(member = user)
+		user_topics_list = Topics.objects.filter(creator=user)[0:30]
+		return render(request, 'osb/home.html', locals())
+	else:
+		show_user = User.objects.get(username=username)
+		user_group_list = Group.objects.filter(leader=show_user)
+		user_topics_list = Topics.objects.filter(creator=show_user)[0:30]
+		return render(request, 'osb/customer_home.html', locals())
+
+
+#registry
+def registration(request):
+	'''用户注册
+	user registration'''
+	username = request.POST['username']
+	password_unmake = request.POST['password1']
+	password = hashers.make_password(password_unmake)
+	new_user = User(username=username, password=password)
+	new_user.save()
+	user = authenticate(username=username, password=password_unmake)
+	if user is not None:
+		login(request,user)
+		print(user)
+		return HttpResponseRedirect('/osb/index')
+	else:
+		return HttpResponseRedirect('/osb/registry')
+
+def registry(request):
+	return render(request, 'osb/registry.html')
+
+def profile(request):
+	return render(request, 'osb/index.html')
+
+def checkUsername(request, username):
+	count = User.objects.filter(username=username).count()
+	print("################################# %d",count)
+	return HttpResponse(count)
+
+#IM
 def chat(request):
 	'''获取朋友列表
 	get friendlist'''
@@ -53,8 +105,6 @@ def getFromuser(request):
 	t = get_template('osb/chat_friend.html')
 	html = t.render(Context({'unread_friend_list': friend_list }))
 	return HttpResponse(html)
-	
-
 
 def sendMessage(request, userid):
 	'''发送信息到服务器

@@ -26,8 +26,8 @@
 		<span class="icon-bar"></span>
 	</button>
 	<a class="navbar-brand" href="/osb">LAOBING</a>
-</div><!--/header-->
-<!-- navbar truemenu--->
+</div>
+<!--/header-->
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	<ul class="nav navbar-nav">
 		<li><a href="#">寻找老伙伴</a></li>
@@ -38,11 +38,11 @@
 		{% if user.is_authenticated %}
 		<li><a href="/osb/chat">私信<span id="messageCount" class='badge badge-orange'></span></a>
 		</li>
-		<li><a href="#">{{ user.username }}</a></li>
+		<li><a href="/osb/home/{{user.username}}">{{ user.username }}</a></li>
 		<li><a href="accounts/logout">注销</a></li>
 		{% else %}
 		<li><a href="accounts/login">登录</a></li>
-		<li><a href="#">注册</a></li>
+		<li><a href="/osb/registry">注册</a></li>
 		{% endif %}
 	</ul>
 </div><!--/collapse-->

@@ -1,0 +1,126 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="utf-8">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href='{% static 'css/style.css' %}'>
+<!-- endbootsrap -->
+<title>OLD SOLDIER</title>
+<style>
+.inputShadow{ 
+ box-shadow: 0px 0px 5px 2px #900;
+}
+</style>
+<script>
+var username = null;
+var password1 = null;
+var password2 = null;
+var usernamePass = false;
+var passwordPass = false;
+var count = 1;
+$(document).ready(function(){
+	$('#InputUsername').on('focus', function(){
+		$(this).css('box-shadow', '0 0 5px 2px #900');
+		$(this).keyup(function(){
+			if($(this).val().length > 1 ){
+				username = $(this).val();
+				$.get("/osb/checkUsername/"+username+"/", 
+				function(data){
+					count = Number(data);
+					if(count == 0){
+						$('.btn').text("账号可用");
+						$("#InputUsername").css('box-shadow', '0 0 5px 2px #339966');
+						usernamePass = true;
+						if(usernamePass && passwordPass){
+							$('button').removeAttr('disabled');
+						}
+					}else{
+						$('.btn').text("账号已存在");
+						$("#InputUsername").css('box-shadow', '0 0 5px 2px #900');
+						$('button').attr('disabled',"disabled");
+					}	
+				});
+			}else{
+				$(this).css('box-shadow', '0 0 5px 2px #900');
+				$('button').attr('disabled',"disabled");
+			}	
+		});
+	});
+
+	$("#InputPassword1").on('focus', function(){
+		$(this).css('box-shadow', '0 0 5px 2px #900');	
+		$(this).keyup(function(){
+			password1 = $(this).val();
+			password2 = $('#InputPassword2').val();
+			if(password1.length > 5 && password1 == password2){
+				$(this).css('box-shadow', '0 0 5px 2px #339966');	
+				if(usernamePass && passwordPass){
+					$('button').removeAttr('disabled');
+					$('.btn').text("注册");
+				}
+			}else{
+				$(this).css('box-shadow', '0 0 5px 2px #900');	
+				$('button').attr('disabled',"disabled");
+			}
+		});
+	});
+	
+	$("#InputPassword2").on('focus', function(){
+		$(this).css('box-shadow', '0 0 5px 2px #900');	
+		$(this).keyup(function(){
+			password2 = $(this).val();
+			if(password1.length > 5 && password2 == password1){
+				$(this).css('box-shadow', '0 0 5px 2px #339966');	
+				$('#InputPassword1').css('box-shadow', '0 0 5px 2px #339966');	
+				passwordPass = true;
+				if(usernamePass && passwordPass){
+					$('button').removeAttr('disabled');
+					$('.btn').text("注册");
+				}
+			}else{
+				$(this).css('box-shadow', '0 0 5px 2px #900');	
+				$('button').attr('disabled',"disabled");
+			}
+		});
+	});
+	
+});
+
+</script>
+</head>
+<body>
+<div class="row" style="margin-top:200px;">
+	<div class="col-md-4"></div>
+	<div class="col-md-4">
+	<div class="panel panel-default">
+	<div class="panel-heading">
+	注册
+	</div>
+	<div class="panel-body">
+		<form action="/osb/registration/" method="POST">
+		{% csrf_token %}
+		<div class="form-group">
+		<input type="text" name="username" class="form-control" id="InputUsername" placeholder="用户昵称">
+		</div>
+		<div class="form-group">
+		<input type="password" name="password1" class="form-control" id="InputPassword1" placeholder="设定密码">
+		</div>
+		<div class="form-group">
+		<input type="password" name="password2" class="form-control" id="InputPassword2" placeholder="密码确认">
+		</div>
+		<div class="form-group">
+		<button type="submit" class="btn btn-lg btn-success btn-block" disabled="disabled">注册</button>
+		</div>
+		</form>
+	</div>
+	</div>
+
+	<div class="col-md-4"></div>
+</div>
+</div>
+</body>
+</html>

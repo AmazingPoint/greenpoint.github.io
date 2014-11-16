@@ -1,0 +1,154 @@
+{% extends "osb/base.html"%}
+{% load static from staticfiles %}
+{% block content %}
+<div class="col-md-9" style="margin-top:-20px;">
+	<div class="col-md-4 visible-md-block visible-lg-block">
+		<img src="{{ user.picture.url }}" class="user-picture img-rounded"/>
+		<h4><b>{{ user.username }}</b></h4>
+    <hr>
+    {% if user.email %}
+    <p><span class="glyphicon glyphicon-envelope"></span><a href="#">{{ user.email }}</a></p>
+    {% endif %}
+    {% if user.nowcity %}
+    <p><span class="glyphicon glyphicon-home"></span><a href="#">{{ user.nowcity }}</a></p>
+    {% endif %}
+    {% if user.joindate %}
+    <p><span class="glyphicon glyphicon-time"></span><a href="#">{{ user.joindate }}</a></p>
+    {% endif %}
+    <hr>
+    <div class="user-info"><a>{{ user.group_set.count }}</a> <p>小组</p></div>
+    <div class="user-info"><a>{{ user.topics_set.count }}</a> <p>话题</p></div>
+    <div class="user-info"><a>{{ user.following.count }}</a> <p>关注</p></div>
+	</div>
+
+	<div class="col-md-8">
+         <!-- Nav tabs -->
+    <ul class="nav nav-tabs nav-tabs-green " role="tablist">
+      <li role="presentation" class="active"><a href="#home" role="tab" data-toggle="tab">我关注的人</a></li>
+      <li role="presentation"><a href="#group" role="tab" data-toggle="tab">我的小组</a></li>
+      <li role="presentation"><a href="#topics" role="tab" data-toggle="tab">我的话题</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane fade in active" id="home">
+        {% for topics in user_following_topics_list %}
+          <div class="panel panel-following-topic-normal  ">
+            <div class="panel-body">
+                <div class="user-custom-left">
+                  <img src="{{ topics.creator.picture.url }}" class="user-custom-picture img-rounded" />
+				  <a href="/osb/home/{{topics.creator.username}}">{{ topics.creator.username }}</a>
+                </div>
+                <div class="user-custom-right">
+                  发布于<a>{{topics.group}}</a> 
+                  <p>{{ topics.description }}</p>
+                <a><span class="glyphicon glyphicon-edit"></span></a>
+                <a><span class="glyphicon glyphicon-star-empty"></span>{{ topics.likeduser.count }}</a>
+                 <em>{{ topics.createdate }}</em>
+                </div>
+            </div>
+          </div>  
+        {% endfor %}
+      </div>
+     
+
+      <div role="tabpanel" class="tab-pane fade" id="group">
+        
+        <div class="col-md-6" style="margin-top:20px;">
+          <h4>我创建的小组</h4>
+          {% for group in user_group_list %}
+          <div class="panel panel-following-group-normal  ">
+            <div class="panel-body">
+              <a href="#">{{ group.name }}</a> &nbsp;&nbsp;
+              {{ group.member.count }}成员 &nbsp;&nbsp;   
+              {{ group.topics_set.count }}话题   
+            </div>
+          </div>  
+          {% endfor %}
+          <div class="panel panel-following-group-normal  ">
+            <div class="panel-body">
+              <a href="#">创建新的小组</a>         
+            </div>
+          </div>  
+        </div>
+
+        <div class="col-md-6" style="margin-top:20px;">
+          <h4>我加入的小组</h4>
+          {% for group in user_added_group_list%}
+          <div class="panel panel-following-group-normal  ">
+            <div class="panel-body">
+              <a href="#">{{ group.name }} </a> &nbsp; &nbsp;
+              小组长<a href="#">{{ group.leader }}</a>               
+            </div>
+          </div>  
+          {% endfor %}
+          <div class="panel panel-following-group-normal  ">
+            <div class="panel-body">
+              <a href="#">发现其他小组</a>    
+            </div>
+          </div>  
+        </div>
+      </div>
+      
+
+      <div role="tabpanel" class="tab-pane fade" id="topics">
+		    {% for topics in user_topics_list %}
+          <div class="panel panel-following-topic-normal  ">
+            <div class="panel-body">
+                <div class="user-custom-left">
+                  <img src="{{ user.picture.url }}" class="user-custom-picture img-rounded" />
+                  <a>{{ topics.creator.username }}</a>
+                </div>
+                <div class="user-custom-right">
+                  发布于<a>{{topics.group}}</a> 
+                  <p>{{ topics.description }}</p>
+                <a><span class="glyphicon glyphicon-edit"></span></a>
+                <a><span class="glyphicon glyphicon-star-empty"></span>{{ topics.likeduser.count }}</a>
+                 <em>{{ topics.createdate }}</em>
+                </div>
+            </div>
+          </div>  
+        {% endfor %}
+      </div>
+
+    </div>
+	</div>		
+</div>
+{% endblock %}
+
+<!--right on desktop-->
+{% block right%}
+<div class="col-md-3" style="margin-top:-20px;">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+        创建一个话题...
+    </div>
+    <div class="panel-body">
+        <textarea class="field span12" id="textarea" rows="5" placeholder="三句话  能搞定否"></textarea>
+        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+          在小组中发布<span class="caret"></span>
+        </button>
+        <a href="#" class="btn btn-success" style="float:right;" role="button">发布</a>
+    </div>
+  </div>
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+        加入一个小组...
+    </div>
+    <div class="panel-body" style="padding:5px;">
+      <a href="#" class="btn btn-primary " role="button">地球人联盟</a>
+      <a href="#" class="btn btn-primary " role="button">我们在北京</a>
+      <a href="#" class="btn btn-primary " role="button">同志热恋</a>
+      <a href="#" class="btn btn-primary " role="button">好好学习 天天向上</a>
+      <a href="#" class="btn btn-primary " role="button">大学党 伤不起</a>
+      <a href="#" class="btn btn-primary " role="button">官方小组</a>
+      <a href="#" class="btn btn-primary " role="button">好好学习 天天向上</a>
+      <a href="#" class="btn btn-primary " role="button">大学党 伤不起</a>
+      <a href="#" class="btn btn-primary " role="button">官方小组</a>
+      <a href="#" class="btn btn-primary " role="button">好好学习 天天向上</a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
